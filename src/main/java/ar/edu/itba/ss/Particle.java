@@ -6,53 +6,81 @@ import java.util.Set;
 import static ar.edu.itba.ss.FileParser.L;
 
 
-public class Particle implements Comparable<Particle> {
+public class Particle {
 
     private int id;
     private double x;
     private double y;
-    private double theta;
+    private double mass;
+    private double radius;
     private double vx;
     private double vy;
     private Set<Particle> neighbours;
 
-    Particle(int id, double x, double y, double theta) {
+    Particle(int id, double x, double y, double vx, double vy, double mass, double radius) {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.theta = theta;
+        this.mass = mass;
+        this.radius = radius;
+        this.vx = vx;
+        this.vy = vy;
     }
 
-    int getId() {
+    public int getId() {
         return id;
     }
 
-    void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    double getX() {
+    public double getX() {
         return x;
     }
 
-    void setX(double x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    double getY() {
+    public double getY() {
         return y;
     }
 
-    void setY(double y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    double getTheta() {
-        return theta;
+    public double getMass() {
+        return mass;
     }
 
-    void setTheta(double theta) {
-        this.theta = theta;
+    public void setMass(double mass) {
+        this.mass = mass;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public double getVx() {
+        return vx;
+    }
+
+    public void setVx(double vx) {
+        this.vx = vx;
+    }
+
+    public double getVy() {
+        return vy;
+    }
+
+    public void setVy(double vy) {
+        this.vy = vy;
     }
 
     Set<Particle> getNeighbours() {
@@ -85,7 +113,10 @@ public class Particle implements Comparable<Particle> {
         return "Particle { id = " + id +
                 ", x = " + x +
                 ", y = " + y +
-                ", theta = " + theta +
+                ", vx = " + vx +
+                ", vy = " + vy +
+                ", mass = " + mass +
+                ", radius = " + radius +
                 '}';
     }
 
@@ -103,11 +134,6 @@ public class Particle implements Comparable<Particle> {
             yDistance = L - yDistance;
         }
         return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
-    }
-
-    @Override
-    public int compareTo(Particle particle){
-        return id - particle.getId();
     }
 
 }
