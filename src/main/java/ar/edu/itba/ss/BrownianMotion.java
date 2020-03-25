@@ -3,7 +3,7 @@ package ar.edu.itba.ss;
 import static ar.edu.itba.ss.Generator.L;
 import static ar.edu.itba.ss.Generator.particles;
 
-public class BrownianMotion {
+class BrownianMotion {
 
     // calculate new positions
     // calculate new velocities
@@ -33,13 +33,6 @@ public class BrownianMotion {
         return Double.POSITIVE_INFINITY;
     }
 
-    static void calculateNewPositions(double time) {
-        for(Particle p: particles) {
-            p.setX(p.getY() + p.getVx() * time);
-            p.setY(p.getY() + p.getVy() * time);
-        }
-    }
-
     static double calculateParticleCollisionTime(Particle p1, Particle p2) {
         double sigma = p1.getRadius() + p2.getRadius();
         double DX = p1.getX() - p2.getX();
@@ -56,7 +49,26 @@ public class BrownianMotion {
         return (-1) * ((VR + Math.sqrt(d)) / VV );
     }
 
+    static void calculateNewPositions(double time) {
+        for(Particle p: particles) {
+            p.setX(p.getY() + p.getVx() * time);
+            p.setY(p.getY() + p.getVy() * time);
+        }
+    }
 
+    static void calculateNewVelocity(Particle p1, Particle p2, Collision collisionType) {
+
+        switch(collisionType) {
+            case VERTICAL_WALL:
+                break;
+            case HORIZONTAL_WALL:
+                break;
+            case PARTICLE:
+                break;
+        }
+
+
+    }
 
 
 }
