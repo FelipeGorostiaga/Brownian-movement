@@ -3,6 +3,7 @@ package ar.edu.itba.ss;
 import java.io.File;
 import java.io.PrintWriter;
 import static ar.edu.itba.ss.CommandParser.N;
+import static ar.edu.itba.ss.CommandParser.T;
 import static ar.edu.itba.ss.Generator.generateParticles;
 import static ar.edu.itba.ss.Generator.particles;
 
@@ -22,9 +23,13 @@ public class App {
             System.exit(1);
         }
 
-
-        // Brownian Motion
         generateParticles();
+
+        for(double t = 0 ; t < T ; ) {
+
+
+        }
+
 
 
 

@@ -6,18 +6,11 @@ import static ar.edu.itba.ss.Generator.particles;
 public class BrownianMotion {
 
     // calculate new positions
-
     // calculate new velocities
-
     // calculate tc
-
         // calculate vertical walls tc
-
         // calculate horizontal walls tc
-
         // calculate particle collision tc
-
-
 
     static double calculateVerticalCollisionTime(Particle p) {
 
@@ -35,7 +28,7 @@ public class BrownianMotion {
             return  (L - p.getRadius() - p.getY()) / p.getVy();
         }
         else if (p.getVy() < 0){
-            return  (p.getRadius() - p.getY())  / p.getVy();
+            return  (0 + p.getRadius() - p.getY())  / p.getVy();
         }
         return Double.POSITIVE_INFINITY;
     }
@@ -46,6 +39,24 @@ public class BrownianMotion {
             p.setY(p.getY() + p.getVy() * time);
         }
     }
+
+    static double calculateParticleCollisionTime(Particle p1, Particle p2) {
+        double sigma = p1.getRadius() + p2.getRadius();
+        double DX = p1.getX() - p2.getX();
+        double DY = p1.getY() - p2.getY();
+        double DVX = p1.getVx() - p2.getVx();
+        double DVY = p1.getVy() - p2.getVy();
+        double RR = Math.pow(DX, 2) + Math.pow(DY, 2);
+        double VV = Math.pow(DVX, 2) + Math.pow(DVY, 2);
+        double VR = DVX * DX + DVY * DY;
+        double d = Math.pow(VR, 2) - VV * RR - Math.pow(sigma, 2);
+        if(VR >= 0 || d < 0) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return (-1) * ((VR + Math.sqrt(d)) / VV );
+    }
+
+
 
 
 }
