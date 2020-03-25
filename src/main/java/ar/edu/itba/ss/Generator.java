@@ -33,8 +33,7 @@ class Generator {
 
     private static boolean isValidPosition(double x, double y) {
         for (Particle p: particles){
-            boolean valid = Math.pow(p.getX() - x, 2) + Math.pow(p.getY() - y, 2) > Math.pow(p.getRadius() + R1, 2);
-            if (!valid){
+            if(!((Math.pow(p.getX() - x, 2) + Math.pow(p.getY() - y, 2)) > Math.pow(p.getRadius() + R1, 2))) {
                 return false;
             }
         }

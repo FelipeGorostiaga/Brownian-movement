@@ -4,9 +4,8 @@ import org.apache.commons.cli.*;
 
 class CommandParser {
 
-    static double RC;
     static int T;
-    static double TEMPERATURE;
+    static double TEMPERATURE = 0;
     static int N;
 
     private static Options createOptions() {
