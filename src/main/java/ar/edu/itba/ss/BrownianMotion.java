@@ -5,13 +5,6 @@ import static ar.edu.itba.ss.Generator.particles;
 
 class BrownianMotion {
 
-    // calculate new positions
-    // calculate new velocities
-    // calculate tc
-        // calculate vertical walls tc
-        // calculate horizontal walls tc
-        // calculate particle collision tc
-
     static double calculateVerticalCollisionTime(Particle p) {
 
         if (p.getVx() > 0) {
@@ -57,18 +50,31 @@ class BrownianMotion {
     }
 
     static void calculateNewVelocity(Particle p1, Particle p2, Collision collisionType) {
-
         switch(collisionType) {
             case VERTICAL_WALL:
+                p1.setVx(-1 * p1.getVx());
                 break;
             case HORIZONTAL_WALL:
+                p1.setVy(-1 * p1.getVy());
                 break;
             case PARTICLE:
+                double sigma = p1.getRadius() + p2.getRadius();
+                double DX = p1.getX() - p2.getX();
+                double DY = p1.getY() - p2.getY();
+                double DVX = p1.getVx() - p2.getVx();
+                double DVY = p1.getVy() - p2.getVy();
+                double VR = DVX * DX + DVY * DY;
+                double J = (2 * p1.getMass() * p2.getMass() * VR) / (sigma * (p1.getMass() + p2.getMass()));
+                double JX = (J * DX) / sigma;
+                double JY = (J * DY) / sigma;
+                // p1
+                p1.setVx(p1.getVx() + JX / p1.getMass());
+                p1.setVy(p1.getY() + JY / p1.getMass());
+                // p2
+                p2.setVx(p2.getVx() - JX / p2.getMass());
+                p2.setVy(p2.getY() - JY / p2.getMass());
                 break;
         }
-
-
     }
-
 
 }
