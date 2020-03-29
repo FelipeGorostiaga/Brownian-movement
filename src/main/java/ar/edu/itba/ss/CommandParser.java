@@ -5,6 +5,8 @@ import org.apache.commons.cli.*;
 class CommandParser {
 
     static int T;
+
+    // temperature of the system is the average kinetic energy of the particles
     static double TEMPERATURE = 0;
     static int N;
 
