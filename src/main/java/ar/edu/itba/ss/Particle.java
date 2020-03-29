@@ -3,8 +3,7 @@ package ar.edu.itba.ss;
 import java.util.Objects;
 import java.util.Set;
 
-import static ar.edu.itba.ss.FileParser.L;
-
+import static ar.edu.itba.ss.Generator.L;
 
 public class Particle {
 
