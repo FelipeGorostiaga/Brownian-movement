@@ -25,17 +25,13 @@ public class App {
         }
         generateParticles();
         for(double t = 0 ; t < T ; ) {
-
             Collision collisionType = null;
             Particle pi = null;
             Particle pj = null;
             double tc = Double.POSITIVE_INFINITY;
-
             for(Particle p : particles) {
-
                 double horizontalWallTime = calculateHorizontalCollisionTime(p);
                 double verticalWallTime = calculateVerticalCollisionTime(p);
-
                 if(horizontalWallTime < tc) {
                     tc = horizontalWallTime;
                     pi = p;
@@ -46,21 +42,20 @@ public class App {
                     pi = p;
                     collisionType = Collision.VERTICAL_WALL;
                 }
-
                 for(Particle p2 : particles) {
                     if(p.getId() < p2.getId()) {
                         double collisionTime = calculateParticleCollisionTime(p, p2);
                         if(collisionTime < tc) {
+                            tc = collisionTime;
                             pi = p;
                             pj = p2;
-                            tc = collisionTime;
                             collisionType = Collision.PARTICLE;
                         }
                     }
                 }
             }
-            calculateNewVelocity(pi, pj, collisionType);
             calculateNewPositions(tc);
+            calculateNewVelocity(pi, pj, collisionType);
             t += tc;
             outputToFile(t, writer);
         }
@@ -70,7 +65,7 @@ public class App {
     }
 
     private static void outputToFile(double time, PrintWriter writer) {
-        writer.println(N);
+        writer.println(N + 1);
         writer.println("time: " + time);
         for (Particle p : particles) {
             writer.println(p.getId() + " " + p.getX() + " " + p.getY() + " " + p.getVx() + " "

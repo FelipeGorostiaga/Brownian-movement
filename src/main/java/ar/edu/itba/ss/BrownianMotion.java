@@ -4,9 +4,8 @@ import static ar.edu.itba.ss.Generator.L;
 import static ar.edu.itba.ss.Generator.particles;
 
 class BrownianMotion {
-
+    
     static double calculateVerticalCollisionTime(Particle p) {
-
         if (p.getVx() > 0) {
             return (L - p.getRadius() - p.getX()) / p.getVx();
         }
@@ -27,29 +26,47 @@ class BrownianMotion {
     }
 
     static double calculateParticleCollisionTime(Particle p1, Particle p2) {
-        double sigma = p1.getRadius() + p2.getRadius();
-        double DX = p1.getX() - p2.getX();
-        double DY = p1.getY() - p2.getY();
-        double DVX = p1.getVx() - p2.getVx();
-        double DVY = p1.getVy() - p2.getVy();
-        double RR = Math.pow(DX, 2) + Math.pow(DY, 2);
-        double VV = Math.pow(DVX, 2) + Math.pow(DVY, 2);
-        double VR = DVX * DX + DVY * DY;
-        double d = Math.pow(VR, 2) - VV * RR - Math.pow(sigma, 2);
-        if(VR >= 0 || d < 0) {
+        double dX = p2.getX() - p1.getX();
+        double dY = p2.getY() - p1.getY();
+        double dVx = p2.getVx() - p1.getVx();
+        double dVy = p2.getVy() - p1.getVy();
+
+        double dVdR = dVx*dX + dVy*dY;
+
+        if (Double.compare(dVdR, 0) >= 0){
             return Double.POSITIVE_INFINITY;
         }
-        return (-1) * ((VR + Math.sqrt(d)) / VV );
+
+        double dVdV = Math.pow(dVx, 2) + Math.pow(dVy, 2);
+
+        double dRdR = Math.pow(dX, 2) + Math.pow(dY, 2);
+
+        double sigma = p1.getRadius() + p2.getRadius();
+
+        double d = Math.pow(dVdR, 2) - dVdV * (dRdR - Math.pow(sigma ,2));
+
+        if (Double.compare(d, 0) < 0){
+            return Double.POSITIVE_INFINITY;
+        }
+        return ((-1) * ((dVdR + Math.sqrt(d)) / dVdV));
     }
 
     static void calculateNewPositions(double time) {
         for(Particle p: particles) {
-            p.setX(p.getY() + p.getVx() * time);
+            p.setX(p.getX() + p.getVx() * time);
             p.setY(p.getY() + p.getVy() * time);
         }
     }
 
     static void calculateNewVelocity(Particle p1, Particle p2, Collision collisionType) {
+
+        if(collisionType.equals(Collision.PARTICLE)) {
+            System.out.println("Collision between particle " + p1.getId() + " and " + p2.getId());
+        }
+        else {
+            System.out.println("Collision against wall " + p1.getId());
+        }
+
         switch(collisionType) {
             case VERTICAL_WALL:
                 p1.setVx(-1 * p1.getVx());
@@ -58,21 +75,23 @@ class BrownianMotion {
                 p1.setVy(-1 * p1.getVy());
                 break;
             case PARTICLE:
+                double dX = p2.getX() - p1.getX();
+                double dY = p2.getY() - p1.getY();
+                double dVx = p2.getVx() - p1.getVx();
+                double dVy = p2.getVy() - p1.getVy();
+
+                double dVdR = dVx*dX + dVy*dY;
                 double sigma = p1.getRadius() + p2.getRadius();
-                double DX = p1.getX() - p2.getX();
-                double DY = p1.getY() - p2.getY();
-                double DVX = p1.getVx() - p2.getVx();
-                double DVY = p1.getVy() - p2.getVy();
-                double VR = DVX * DX + DVY * DY;
-                double J = (2 * p1.getMass() * p2.getMass() * VR) / (sigma * (p1.getMass() + p2.getMass()));
-                double JX = (J * DX) / sigma;
-                double JY = (J * DY) / sigma;
-                // p1
-                p1.setVx(p1.getVx() + JX / p1.getMass());
-                p1.setVy(p1.getY() + JY / p1.getMass());
-                // p2
-                p2.setVx(p2.getVx() - JX / p2.getMass());
-                p2.setVy(p2.getY() - JY / p2.getMass());
+
+                double J = (2*p1.getMass()*p2.getMass()*dVdR) / (sigma * (p1.getMass() + p2.getMass()));
+                double Jx = J * dX / sigma;
+                double Jy = J * dY / sigma;
+
+                p1.setVx(p1.getVx() + Jx/p1.getMass());
+                p1.setVy(p1.getVy() + Jy/p1.getMass());
+
+                p2.setVx(p2.getVx() - Jx/p2.getMass());
+                p2.setVy(p2.getVy() - Jy/p2.getMass());
                 break;
         }
     }

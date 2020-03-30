@@ -1,6 +1,5 @@
 package ar.edu.itba.ss;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,6 @@ class Generator {
                 x = R1 + (L - 2 * R1) * Math.random();
                 y = R1 + (L - 2 * R1) * Math.random();
             } while (!isValidPosition(x, y));
-
             if(TEMPERATURE != 0) {
                 double averageVelocity = TEMPERATURE / N;
                 vx = averageVelocity / Math.sqrt(2);
@@ -42,7 +40,6 @@ class Generator {
         }
     }
 
-
     private static boolean isValidPosition(double x, double y) {
         for (Particle p: particles){
             if(!((Math.pow(p.getX() - x, 2) + Math.pow(p.getY() - y, 2)) > Math.pow(p.getRadius() + R1, 2))) {
@@ -51,5 +48,4 @@ class Generator {
         }
         return true;
     }
-
 }
