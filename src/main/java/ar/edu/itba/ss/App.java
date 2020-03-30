@@ -24,6 +24,8 @@ public class App {
             System.exit(1);
         }
         generateParticles();
+        int collisionCant = 0;
+
         for(double t = 0 ; t < T ; ) {
             Collision collisionType = null;
             Particle pi = null;
@@ -58,15 +60,18 @@ public class App {
             calculateNewVelocity(pi, pj, collisionType);
             t += tc;
             outputToFile(t, writer);
+            collisionCant += 1;
         }
         writer.close();
         final long endTime = System.currentTimeMillis();
         System.out.println("Total execution time: " + (endTime - startTime) + " ms");
+        System.out.println("Total collisions: " + collisionCant);
+        System.out.println("Collision frequency: " + (double)(collisionCant)/T);
     }
 
     private static void outputToFile(double time, PrintWriter writer) {
         writer.println(N + 1);
-        writer.println("time: " + time);
+        writer.println(time);
         for (Particle p : particles) {
             writer.println(p.getId() + " " + p.getX() + " " + p.getY() + " " + p.getVx() + " "
                             + p.getVy() + " " + p.getRadius());
