@@ -59,14 +59,24 @@ public class App {
             calculateNewPositions(tc);
             calculateNewVelocity(pi, pj, collisionType);
             t += tc;
+
+            printState(t, collisionCant);
             outputToFile(t, writer);
-            collisionCant += 1;
+            collisionCant++;
         }
         writer.close();
         final long endTime = System.currentTimeMillis();
         System.out.println("Total execution time: " + (endTime - startTime) + " ms");
         System.out.println("Total collisions: " + collisionCant);
         System.out.println("Collision frequency: " + (double)(collisionCant)/T);
+    }
+
+    private static void printState(double time, int collisionNumber) {
+        System.out.println(particles.size());
+        System.out.println(collisionNumber);
+        for (Particle p : particles){
+            System.out.println(p.getX() + "\t" + p.getY() + "\t" + p.getVx() + "\t" + p.getVy() + "\t" + p.getRadius() + "\t" + time);
+        }
     }
 
     private static void outputToFile(double time, PrintWriter writer) {
