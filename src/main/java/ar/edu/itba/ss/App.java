@@ -58,22 +58,22 @@ public class App {
             calculateNewPositions(tc);
             calculateNewVelocity(pi, pj, collisionType);
             t += tc;
-            //printState(t, collisionCant);
+            printState(t);
             outputToFile(t, writer);
             collisionCant++;
         }
         writer.close();
         final long endTime = System.currentTimeMillis();
-        System.out.println("Total execution time: " + (endTime - startTime) + " ms");
-        System.out.println("Total collisions: " + collisionCant);
-        System.out.println("Collision frequency: " + (double)(collisionCant)/T);
+//        System.out.println("Total execution time: " + (endTime - startTime) + " ms");
+//        System.out.println("Total collisions: " + collisionCant);
+//        System.out.println("Collision frequency: " + (double)(collisionCant)/T);
     }
 
-    private static void printState(double time, int collisionNumber) {
-        System.out.println(particles.size());
-        System.out.println(collisionNumber);
+    private static void printState(double time) {
+        System.out.println(N + 1);
+        System.out.println(time);
         for (Particle p : particles){
-            System.out.println(p.getX() + "\t" + p.getY() + "\t" + p.getVx() + "\t" + p.getVy() + "\t" + p.getRadius() + "\t" + time);
+            System.out.println(p.getX() + "\t" + p.getY() + "\t" + p.getVx() + "\t" + p.getVy() + "\t" + p.getRadius());
         }
     }
 
