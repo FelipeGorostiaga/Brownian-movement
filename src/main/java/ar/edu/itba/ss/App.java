@@ -25,7 +25,6 @@ public class App {
         }
         generateParticles();
         int collisionCant = 0;
-
         for(double t = 0 ; t < T ; ) {
             Collision collisionType = null;
             Particle pi = null;
@@ -59,8 +58,7 @@ public class App {
             calculateNewPositions(tc);
             calculateNewVelocity(pi, pj, collisionType);
             t += tc;
-
-            printState(t, collisionCant);
+            //printState(t, collisionCant);
             outputToFile(t, writer);
             collisionCant++;
         }
@@ -78,6 +76,7 @@ public class App {
             System.out.println(p.getX() + "\t" + p.getY() + "\t" + p.getVx() + "\t" + p.getVy() + "\t" + p.getRadius() + "\t" + time);
         }
     }
+
 
     private static void outputToFile(double time, PrintWriter writer) {
         writer.println(N + 1);
