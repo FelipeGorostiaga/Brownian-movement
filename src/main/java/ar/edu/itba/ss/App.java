@@ -25,6 +25,9 @@ public class App {
         }
         generateParticles();
         int collisionCant = 0;
+        outputToFile(0,writer);
+
+
         for(double t = 0 ; t < T ; ) {
             Collision collisionType = null;
             Particle pi = null;

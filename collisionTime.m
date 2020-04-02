@@ -12,15 +12,16 @@ function collisionTime(output_file)
         ty = tx;
 
         for i = 1:12
-            fgetl(fid);
+            fskipl(fid);
         end
 
     end
 
     fclose(fid);
     
+    
     #frecuencia de colisiones:
-    frequency = size(t)(2)/tx
+    frequency = (size(t)(2) - 1)/tx
 
     #promedio de tiempo de colision
     mean = mean(t_int)
