@@ -15,14 +15,17 @@ function initialStateVelocity(output_file)
 
      ve = sqrt(vx.^2 + vy.^2);
 
-     k = 0:0.1:max(ve);
+     k = 0:0.001:max(ve);
 
 
     cdf = empirical_cdf(k,ve);
 
     pdf = diff([0 cdf]);
 
-    plot(k, cdf)
+    plot(k, pdf)
+
+    xlabel('velocidades de las particulas (m/s)');
+    ylabel('PDF');
     
 
 end

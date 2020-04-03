@@ -36,7 +36,9 @@ function particleVelocity(output_file)
         vel = [vel; ve];
     end
     
-    k = 0:0.1:max(vel);
+   
+
+    k = 0:0.001:max(vel);
 
     cdf = empirical_cdf(k,vel);
 
@@ -44,5 +46,7 @@ function particleVelocity(output_file)
 
     plot(k, pdf)
     
+    xlabel('velocidades de las particulas (m/s)');
+    ylabel('PDF');
 
 end 

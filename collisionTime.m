@@ -35,8 +35,13 @@ function collisionTime(output_file)
     cdf = empirical_cdf(x,t_int);
     #funcion de densidad de probabilidad de los tiempos de colision
     pdf = diff([0 cdf]);
+    
 
     plot(x, pdf)
+
+    xlabel('intervalos de tiempo entre colisiones (s)');
+    ylabel('PDF');
+    
 
         
     
