@@ -70,7 +70,7 @@ print_line(line)
 yl = [line[0]*xx + line[1]  for xx in x]
 plt.style.use('seaborn')
 plt.plot(x,yl)
-plt.errorbar(x, avg_dcm, yerr=errors)
+plt.errorbar(x, avg_dcm, yerr=line[0])
 plt.xlabel('Time (s)')
 plt.ylabel('<Desplazamiento Cuadratico Medio> (m^2/s)')
 plt.show()
