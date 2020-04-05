@@ -6,14 +6,12 @@ import java.io.PrintWriter;
 import static ar.edu.itba.ss.BrownianMotion.*;
 import static ar.edu.itba.ss.CommandParser.N;
 import static ar.edu.itba.ss.CommandParser.T;
-import static ar.edu.itba.ss.Generator.generateParticles;
-import static ar.edu.itba.ss.Generator.particles;
+import static ar.edu.itba.ss.Generator.*;
 
 
 public class App {
 
     public static void main( String[] args ) {
-        long startTime = System.currentTimeMillis();
         CommandParser.parseCommandLine(args);
         File file = new File("output.txt");
         PrintWriter writer = null;
@@ -26,7 +24,6 @@ public class App {
         generateParticles();
         int collisionCant = 0;
         outputToFile(0,writer);
-
 
         for(double t = 0 ; t < T ; ) {
             Collision collisionType = null;
@@ -61,15 +58,12 @@ public class App {
             calculateNewPositions(tc);
             calculateNewVelocity(pi, pj, collisionType);
             t += tc;
-            printState(t);
+            //printState(t);
             outputToFile(t, writer);
             collisionCant++;
         }
         writer.close();
-        final long endTime = System.currentTimeMillis();
-//        System.out.println("Total execution time: " + (endTime - startTime) + " ms");
-//        System.out.println("Total collisions: " + collisionCant);
-//        System.out.println("Collision frequency: " + (double)(collisionCant)/T);
+
     }
 
     private static void printState(double time) {
@@ -82,11 +76,16 @@ public class App {
 
 
     private static void outputToFile(double time, PrintWriter writer) {
+       /* For ovito simulation
+        writer.println(N + 3);*/
         writer.println(N + 1);
         writer.println(time);
         for (Particle p : particles) {
             writer.println(p.getId() + " " + p.getX() + " " + p.getY() + " " + p.getVx() + " "
                             + p.getVy() + " " + p.getRadius());
         }
+        /*For ovito simulation
+        writer.println((N + 2) + " " + 0 + " " + 0 + " " + 0 + " " + 0 + " " + 0.001);
+        writer.println((N + 3) + " " + L + " " + L + " " + 0 + " " + 0 + " " + 0.001);*/
     }
 }

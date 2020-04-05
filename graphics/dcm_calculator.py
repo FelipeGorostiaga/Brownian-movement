@@ -3,6 +3,7 @@ import math
 import sys
 import subprocess
 import numpy as np
+from least_squares import *
 
 name, n, time, runs = sys.argv
 T = int(time)
@@ -34,7 +35,6 @@ for r in range(0, runs):
     # T = 100
     t0 = int(T/2)
 
-
     dcm = []
     for t in range(t0, T):
         for i in range(0, len(times)):
@@ -56,23 +56,40 @@ for i in range(0, T2):
     errors.append(np.std(error))
 
 for i in range(0,len(errors)):
-    errors[i] = errors[i] / int(n)
+    errors[i] = errors[i] / math.sqrt(int(n))
 
 x =  range(0,T2)
-par = np.polyfit(x, avg_dcm, 1, full=True)
-slope=par[0][0]
-intercept=par[0][1]
-xl = [min(x), max(x)]
-yl = [slope*xx + intercept  for xx in xl]
 
-print('Y intercept:{y}'.format(y=intercept))
-print('Slope:{m}'.format(m=slope))
-plt.style.use('ggplot')
-plt.plot(xl,yl)
-plt.errorbar(x, avg_dcm, yerr=errors ,marker='x')
+points = [[0 for x in range(2)] for y in range(len(avg_dcm))]
+for i in range(0,len(avg_dcm)):
+    points[i][0] = x[i]
+    points[i][1] = avg_dcm[i]
+
+line = calc_line(points)
+print_line(line)
+yl = [line[0]*xx + line[1]  for xx in x]
+plt.style.use('seaborn')
+plt.plot(x,yl)
+plt.errorbar(x, avg_dcm, yerr=errors)
 plt.xlabel('Time (s)')
-plt.ylabel('<Desplazamiento Cuadratico Medio>')
+plt.ylabel('<Desplazamiento Cuadratico Medio> (m^2/s)')
 plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
