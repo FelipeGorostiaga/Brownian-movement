@@ -60,20 +60,50 @@ for i in range(0,len(errors)):
 
 x =  range(0,T2)
 
-points = [[0 for x in range(2)] for y in range(len(avg_dcm))]
-for i in range(0,len(avg_dcm)):
-    points[i][0] = x[i]
-    points[i][1] = avg_dcm[i]
+step = 0.0000001
+min_error = 1
+slope = 0
+regr_errors = []
+count = 0
+indx = 0
+for c in np.arange(-0.0001, 0.0001, step):
+    error = 0.0
+    for i in range(0, len(avg_dcm)):
+        error += math.pow(avg_dcm[i] - c * x[i] ,2)
+    regr_errors.append(error)
+    if(error < min_error):
+        min_error = error
+        slope = c
+        indx = count
+    count += 1
 
-line = calc_line(points)
-print_line(line)
-yl = [line[0]*xx + line[1]  for xx in x]
+print(slope)
+yl = [slope*xx  for xx in x]
+
+f = plt.figure(1)
+plt.plot(np.arange(-0.0001, 0.0001, step), regr_errors, color='red')
+plt.plot(np.arange(-0.0001, 0.0001, step)[indx], regr_errors[indx], marker='X')
+plt.xlabel('C')
+plt.ylabel('Error(C)')
+f.show()
+
+g = plt.figure(2)
 plt.style.use('seaborn')
 plt.plot(x,yl)
-plt.errorbar(x, avg_dcm, yerr=line[0])
+plt.errorbar(x, avg_dcm, yerr=errors)
 plt.xlabel('Time (s)')
 plt.ylabel('<Desplazamiento Cuadratico Medio> (m^2/s)')
 plt.show()
+g.show()
+
+input()
+
+
+
+
+
+
+
 
 
 
